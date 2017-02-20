@@ -145,9 +145,9 @@
                 meta = [],
                 paths = regionId.length ? regionId : osmeData.paths[regionId],
                 //segments = [],
-                osmeWays = osmeData.ways,
-                options = options || {};
+                osmeWays = osmeData.ways;
 
+            options = options || {};
             osmeData.wayCache = osmeData.wayCache || {};
 
             if (!paths) {
@@ -216,7 +216,7 @@
          * Vanilla Ajax data transfer
          * @param {String} path
          * @param {Function} callback
-         * @param {Function) errorCallback
+         * @param {Function} errorCallback
         */
         function load(path, callback, errorCallback) {
             var xhr = new XMLHttpRequest();
@@ -446,7 +446,7 @@
                     wayDirection = {},
                     wayLookup = {};
 
-                var apaths = [patha, pathb]
+                var apaths = [patha, pathb];
                 for (var ri = 0; ri < 2; ++ri) {
                     var tpaths = apaths[ri];
                     for (var pathId = 0, pathLength = tpaths.length; pathId < pathLength; ++pathId) {
@@ -673,8 +673,8 @@
              * @param {Function} [options.postFilter] filtering function.
              * @param {String|Object} [options.recombine] recombination function.
              * @param {Object} [options.scheme] another recombination function.
-             * @param {Function) callback
-             * @param {Function) [errorCallback]
+             * @param {Function} callback
+             * @param {Function} [errorCallback]
              */
             geoJSON: function (region, options, callback, errorCallback) {
                 if (!errorCallback) {
@@ -836,7 +836,7 @@
 
             /**
              * Reverse geocode
-             * @param {Numbrer[]} point - Point.
+             * @param {Array} point - Point.
              * @param {Object} options
              * @param {Number} options.seq - Sequence number.
              * @param {String} options.lang - Language.
@@ -887,8 +887,8 @@
         }
 
         function styleToGoogle(style) {
-            var ret = {},
-                notdefined;
+            var ret = {};
+
             if ('strokeWidth' in style) {
                 ret.strokeWeight = style.strokeWidth;
             }
@@ -906,7 +906,6 @@
             }
             return ret;
         }
-
 
     })();
 
@@ -970,6 +969,5 @@
         ymaps.modules.require('osmeRegions', function () {
         });
     }
-
 })
 (this);
