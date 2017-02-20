@@ -27,7 +27,7 @@
             fraction = 2,
             dividor = 1 / 0xFFFF; // target resolution 65k, real 4k
 
-        function flipa (a) {
+        function flipa(a) {
             var b = [];
             for (var i = 0, l = a.length; i < l; ++i) {
                 b[i] = [a[i][1], a[i][0]];
@@ -35,7 +35,7 @@
             return b;
         }
 
-        function flip (a) {
+        function flip(a) {
             var b = [];
             for (var i = 0, l = a.length; i < l; ++i) {
                 b[i] = flipa(a[i]);
@@ -47,7 +47,7 @@
          * coordinateDecode
          * partof Yandex.Maps.API
          */
-        function decodeByteVector (x, N) {
+        function decodeByteVector(x, N) {
             var point = 0;
             for (var i = 0; i < N; ++i) {
                 point |= (x.charCodeAt(i) << (i * 8));
@@ -55,15 +55,15 @@
             return point;
         }
 
-        function clampx (x) {
+        function clampx(x) {
             return Math.min(180, Math.max(-180, x));
         }
 
-        function clampy (y) {
+        function clampy(y) {
             return Math.min(85, Math.max(-85, y));
         }
 
-        function fromBase64 (input) {
+        function fromBase64(input) {
             input = input.replace(/_/g, '/').replace(/-/g, '+');
             if (typeof atob != "undefined") {
                 return atob(input);
@@ -72,7 +72,7 @@
             }
         }
 
-        function decodeLineBlock (encodedCoordinates) {
+        function decodeLineBlock(encodedCoordinates) {
             var byteVector = fromBase64(encodedCoordinates),
                 byteVectorLength = byteVector.length,
                 bounds = [
@@ -85,7 +85,7 @@
                 fx = dimension[0] * dividor,
                 fy = dimension[1] * dividor;
 
-            function read () {
+            function read() {
                 var ret = decodeByteVector(byteVector.substr(index, fraction), fraction);
                 index += fraction;
                 return ret;
@@ -98,7 +98,7 @@
             return result;
         }
 
-        function decodeWay (lineBlock, wayId, osmeData) {
+        function decodeWay(lineBlock, wayId, osmeData) {
             if (osmeData.wayCache[wayId]) {
                 return osmeData.wayCache[wayId];
             }
@@ -106,18 +106,18 @@
         }
 
 
-        function getFixedGeometry (regionId, osmeData) {
+        function getFixedGeometry(regionId, osmeData) {
             return getGeometry(regionId, osmeData, {fixDegenerate: true})
         }
 
-        function EQ (first, second, diff) {
+        function EQ(first, second, diff) {
             diff = diff || 1e-9;
             var dx = Math.abs(second[0] - first[0]),
                 dy = Math.abs(second[1] - first[1]);
             return dx < diff && dy < diff;
         }
 
-        function fixDegenerate (way, path) {
+        function fixDegenerate(way, path) {
             var offset = 0,
                 l = way.length,
                 lp = path.length,
@@ -139,12 +139,12 @@
             return offset;
         }
 
-        function getGeometry (regionId, osmeData, options) {
+        function getGeometry(regionId, osmeData, options) {
             var coordinates = [],
                 fixedPoints = [],
                 meta = [],
                 paths = regionId.length ? regionId : osmeData.paths[regionId],
-            //segments = [],
+                //segments = [],
                 osmeWays = osmeData.ways,
                 options = options || {};
 
@@ -218,7 +218,7 @@
          * @param {Function} callback
          * @param {Function) errorCallback
         */
-        function load (path, callback, errorCallback) {
+        function load(path, callback, errorCallback) {
             var xhr = new XMLHttpRequest();
             xhr.open("GET", path, true);
             xhr.onreadystatechange = function () {
@@ -247,7 +247,7 @@
          * @param options
          * @returns {Array}
          */
-        function setupGeometry (regionsData, options) {
+        function setupGeometry(regionsData, options) {
             options = options || {};
             var regions = regionsData.regions,
                 dataset = [],
@@ -312,7 +312,7 @@
             return result;
         }
 
-        function convertCoordinate (feature) {
+        function convertCoordinate(feature) {
             return {
                 type: "Feature",
                 geometry: {
@@ -330,7 +330,7 @@
          * @param data
          * @returns {RegionObject}
          */
-        function wrapRegion (rid, data) {
+        function wrapRegion(rid, data) {
             var meta = data.regions[rid],
                 prop = meta.property || {};
             return {
@@ -402,13 +402,13 @@
          * @param query
          * @returns {*}
          */
-        function recombineRegion (regionsData, query) {
+        function recombineRegion(regionsData, query) {
             var regions = regionsData.regions,
                 inpaths = regionsData.paths,
                 passRegions = {},
                 paths = [];
 
-            function filterPath (path) {
+            function filterPath(path) {
                 var result = [];
                 for (var i = 0, l = path.length; i < l; ++i) {
                     if (1 || path[i].length > 1) {
@@ -440,7 +440,7 @@
                 }
             }
 
-            function joinPaths (patha, pathb) {
+            function joinPaths(patha, pathb) {
 
                 var usedWays = {},
                     wayDirection = {},
@@ -498,7 +498,7 @@
                     return false;
                 }
 
-                function getWay () {
+                function getWay() {
                     for (var i in wayDirection) {
                         if (testWay(i)) {
                             return +i;
@@ -507,11 +507,11 @@
                     return false;
                 }
 
-                function testWay (i) {
+                function testWay(i) {
                     return i && wayDirection.hasOwnProperty(i) && wayDirection[i][1];
                 }
 
-                function reverse () {
+                function reverse() {
                     rpath.reverse();
                     for (var i = 0, l = rpath.length; i < l; ++i) {
                         rpath[i] *= -1;
@@ -522,7 +522,7 @@
 
                 var rpaths = [], rpath = [], ord = 1;
 
-                function tryJoinWay (rpath, way) {
+                function tryJoinWay(rpath, way) {
                     if (!wayDirection[way]) {
                         return false;
                     }
@@ -622,14 +622,14 @@
             return getFixedGeometry(rpaths, regionsData);
         }
 
-        function nextTick (callback, args) {
+        function nextTick(callback, args) {
             setTimeout(function () {
                 callback.apply(this, args);
             }, 0);
         }
 
-        var HOST = 'http://data.esosedi.org/regions/v1/';
-        var GEOCODEHOST = 'http://data.esosedi.org/geocode/v1';
+        var HOST = '//data.esosedi.org/regions/v1/';
+        var GEOCODEHOST = '//data.esosedi.org/geocode/v1';
         var DEBUG = true;
         var cache = {};
 
@@ -753,9 +753,9 @@
                     var line = dataset[i];
                     if (line.geometry) {
                         collection.add(new ym21.GeoObject(
-                                latLongOrder ? line : convertCoordinate(line), {
-                                    simplificationFixedPoints: line.geometry.fixedPoints
-                                })
+                            latLongOrder ? line : convertCoordinate(line), {
+                                simplificationFixedPoints: line.geometry.fixedPoints
+                            })
                         );
                     } else {
                         window.console && console.log('osme line fail', line);
@@ -868,7 +868,7 @@
         };
 
 
-        function buildIdTable (geoJson) {
+        function buildIdTable(geoJson) {
             var ret = {},
                 features = geoJson.features;
             for (var i = 0, l = features.length; i < l; ++i) {
@@ -881,12 +881,12 @@
             return ret;
         }
 
-        function styleToYandex (style) {
+        function styleToYandex(style) {
             var ret = {};
             return style;
         }
 
-        function styleToGoogle (style) {
+        function styleToGoogle(style) {
             var ret = {},
                 notdefined;
             if ('strokeWidth' in style) {
